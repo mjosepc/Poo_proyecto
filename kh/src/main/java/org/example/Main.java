@@ -1,9 +1,9 @@
-
+package org.example;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-//cambio vale
+
 public class Main {
     private static Map<String, Producto> inventario = new HashMap<>();
     private static Scanner scanner = new Scanner(System.in);
@@ -13,11 +13,12 @@ public class Main {
             System.out.println("Bienvenido a la aplicación de gestión de inventario");
             System.out.println("1. Registrar un producto");
             System.out.println("2. Listar productos");
-            System.out.println("3. Salir");
+            System.out.println("3. Buscar producto");
+            System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
-            scanner.nextLine(); // Consumir la nueva línea
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -27,6 +28,9 @@ public class Main {
                     listarProductos();
                     break;
                 case 3:
+                    buscarProducto();
+                    break;
+                case 4:
                     System.out.println("¡Hasta luego!");
                     System.exit(0);
                 default:
@@ -43,12 +47,12 @@ public class Main {
         String descripcion = scanner.nextLine();
         System.out.print("Precio: ");
         double precio = scanner.nextDouble();
-        scanner.nextLine(); // Consumir la nueva línea
+        scanner.nextLine();
         System.out.print("ID (código de barras): ");
         String codigoBarras = scanner.nextLine();
         System.out.print("Stock: ");
         int stock = scanner.nextInt();
-        scanner.nextLine(); // Consumir la nueva línea
+        scanner.nextLine();
 
         Producto producto = new Producto(nombre, descripcion, precio, codigoBarras, stock);
         inventario.put(codigoBarras, producto);
@@ -60,6 +64,19 @@ public class Main {
         System.out.println("Inventario de productos:");
         for (Producto producto : inventario.values()) {
             System.out.println(producto);
+        }
+    }
+
+    private static void buscarProducto() {
+        System.out.print("Ingrese el código de barras del producto que desea buscar: ");
+        String codigoBarras = scanner.nextLine();
+
+        Producto producto = inventario.get(codigoBarras);
+
+        if (producto != null) {
+            System.out.println(producto);
+        } else {
+            System.out.println("Producto no encontrado.");
         }
     }
 }
