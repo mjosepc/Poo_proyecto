@@ -3,7 +3,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-//prueba
+//cambio vale
 public class Main {
     private static Map<String, Producto> inventario = new HashMap<>();
     private static Scanner scanner = new Scanner(System.in);
