@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class GestorUsuario {
     private List<Usuario> listaUsuarios;
+    ///comentario
 
     public GestorUsuario() {
         listaUsuarios = new ArrayList<>();

@@ -1,5 +1,5 @@
 
-public class Producto {
+class Producto {
     private String nombre;
     private int stock;
     private int codigoBarra;
@@ -29,18 +29,22 @@ public class Producto {
     }
 
     public int getCodigoBarra(){
+
         return codigoBarra;
     }
 
     public void setCodigoBarra(int codigoBarra) {
+
         this.codigoBarra = codigoBarra;
     }
 
     public int getPrecio(){
+
         return precio;
     }
 
     public void setPrecio(int precio) {
+
         this.precio = precio;
     }
 }
