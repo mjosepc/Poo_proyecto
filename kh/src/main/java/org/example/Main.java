@@ -1,107 +1,188 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static Map<String, Producto> inventario = new HashMap<>();
-    private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
-        while (true) {
-            System.out.println("Bienvenido a la aplicación de gestión de inventario");
-            System.out.println("1. Registrar un producto");
-            System.out.println("2. Listar productos");
-            System.out.println("3. Buscar producto");
-            System.out.println("4. Salir");
-            System.out.print("Seleccione una opción: ");
-
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-                    registrarProducto();
-                    break;
-                case 2:
-                    listarProductos();
-                    break;
-                case 3:
-                    buscarProducto();
-                    break;
-                case 4:
-                    System.out.println("¡Hasta luego!");
-                    System.exit(0);
-                default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
-            }
-        }
-    }
-
-    private static void registrarProducto() {
-        System.out.println("Ingrese los datos del producto:");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Descripción (opcional): ");
-        String descripcion = scanner.nextLine();
-        System.out.print("Precio: ");
-        double precio = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("ID (código de barras): ");
-        String codigoBarras = scanner.nextLine();
-        System.out.print("Stock: ");
-        int stock = scanner.nextInt();
-        scanner.nextLine();
-
-        Producto producto = new Producto(nombre, descripcion, precio, codigoBarras, stock);
-        inventario.put(codigoBarras, producto);
-
-        System.out.println("Registro exitoso.");
-    }
-
-    private static void listarProductos() {
-        System.out.println("Inventario de productos:");
-        for (Producto producto : inventario.values()) {
-            System.out.println(producto);
-        }
-    }
-
-    private static void buscarProducto() {
-        System.out.print("Ingrese el código de barras del producto que desea buscar: ");
-        String codigoBarras = scanner.nextLine();
-
-        Producto producto = inventario.get(codigoBarras);
-
-        if (producto != null) {
-            System.out.println(producto);
-        } else {
-            System.out.println("Producto no encontrado.");
-        }
+        Menu menu = new Menu(); // Crea una instancia de la clase Menu
+        menu.mostrarMenu(); // Llama al método mostrarMenu para mostrar el menú
     }
 }
 
-class Producto {
+public class Producto {
+    // Atributos
     private String nombre;
-    private String descripcion;
-    private double precio;
-    private String codigoBarras;
     private int stock;
+    private int codigoBarra;
+    private int precio;
 
-    public Producto(String nombre, String descripcion, double precio, String codigoBarras, int stock) {
+    // Constructor
+    public Producto(String nombre, int stock, int codigoBarra, int precio) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.stock = stock;
+        this.codigoBarra = codigoBarra;
         this.precio = precio;
-        this.codigoBarras = codigoBarras;
+    }
+
+    // Métodos get y set para cada atributo
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    @Override
-    public String toString() {
-        return "Nombre: " + nombre +
-                ", Descripción: " + descripcion +
-                ", Precio: " + precio +
-                ", Código de Barras: " + codigoBarras +
-                ", Stock: " + stock;
+    public int getCodigoBarra() {
+        return codigoBarra;
+    }
+
+    public void setCodigoBarra(int codigoBarra) {
+        this.codigoBarra = codigoBarra;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
     }
 }
+
+public class Usuario {
+    // Atributos
+    private String nombreUsuario;
+    private String nombreEmpresa;
+    private String contraseña;
+
+    // Constructor
+    public Usuario(String nombreUsuario, String nombreEmpresa, String contraseña) {
+        this.nombreUsuario = nombreUsuario;
+        this.nombreEmpresa = nombreEmpresa;
+        this contraseña = contraseña;
+    }
+
+    // Métodos get y set para cada atributo
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
+    }
+
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+}
+
+public class GestorUsuario {
+    // Atributo
+    private List<Usuario> listaUsuarios;
+
+    // Constructor
+    public GestorUsuario() {
+        this.listaUsuarios = new ArrayList<>();
+    }
+
+    // Método para crear un usuario
+    public void crearUsuario(String nombreUsuario, String nombreEmpresa, String contraseña) {
+        Usuario nuevoUsuario = new Usuario(nombreUsuario, nombreEmpresa, contraseña);
+        listaUsuarios.add(nuevoUsuario);
+    }
+
+    // Método para iniciar sesión
+    public boolean iniciarSesion(String nombreUsuario, String contraseña) {
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getNombreUsuario().equals(nombreUsuario) && usuario.getContraseña().equals(contraseña)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Métodos get y set para el atributo listaUsuarios
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }
+}
+
+public class Menu {
+    // Atributo
+    private GestorUsuario gestorUsuario;
+
+    // Constructor
+    public Menu() {
+        this.gestorUsuario = new GestorUsuario();
+    }
+
+    // Método para mostrar el menú
+    public void mostrarMenu() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Iniciar sesión");
+            System.out.println("2. Crear cuenta");
+            System.out.println("3. Salir");
+            System.out.print("Ingrese una opción: ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();  // Consume newline left-over
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese su nombre de usuario: ");
+                    String nombreUsuario = scanner.nextLine();
+                    System.out.print("Ingrese su contraseña: ");
+                    String contraseña = scanner.nextLine();
+                    if (gestorUsuario.iniciarSesion(nombreUsuario, contraseña)) {
+                        System.out.println("Inicio de sesión exitoso!");
+                    } else {
+                        System.out.println("Nombre de usuario o contraseña incorrectos.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Ingrese su nombre de usuario: ");
+                    nombreUsuario = scanner.nextLine();
+                    System.out.print("Ingrese el nombre de su empresa: ");
+                    String nombreEmpresa = scanner.nextLine();
+                    System.out.print("Ingrese su contraseña: ");
+                    contraseña = scanner.nextLine();
+                    gestorUsuario.crearUsuario(nombreUsuario, nombreEmpresa, contraseña);
+                    System.out.println("Cuenta creada exitosamente!");
+                    break;
+                case 3:
+                    System.out.println("¡Hasta luego!");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
+            }
+        }
+    }
+}
+
