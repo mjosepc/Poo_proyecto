@@ -68,8 +68,9 @@ class Inventario {
 }
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         GestorDeUsuario gestorDeUsuario = new GestorDeUsuario();
         Inventario inventario = new Inventario();
         Usuario usuarioActual = null;
@@ -82,8 +83,10 @@ public class Main {
 
             switch (opcion) {
                 case 1:
+                    usuarioActual = iniciarSesion(gestorDeUsuario);
                     break;
                 case 2:
+                    crearUsuario(gestorDeUsuario);
                     break;
                 case 3:
                     System.exit(0);
@@ -100,12 +103,16 @@ public class Main {
 
                     switch (subOpcion) {
                         case 1:
+                            agregarProducto(inventario);
                             break;
                         case 2:
+                            eliminarProducto(inventario);
                             break;
                         case 3:
+                            buscarProductoPorNombre(inventario);
                             break;
                         case 4:
+                            buscarProductoPorCodigo(inventario);
                             break;
                         case 5:
                             usuarioActual = null;
@@ -118,5 +125,128 @@ public class Main {
                 }
             }
         }
+    }
+
+    static Usuario iniciarSesion(GestorDeUsuario gestorDeUsuario) {
+        // Implementa el método iniciarSesion() y devuelve el resultado
+        System.out.println("Ingrese su nombre de usuario:");
+        String nombreUsuario = scanner.next();
+        System.out.println("Ingrese su contraseña:");
+        String contraseña = scanner.next();
+        
+        for (Usuario usuario : gestorDeUsuario.listaUsuarios){
+            if(usuario.getNombreUsuario().equals(nombreUsuario)&&usuario.getContraseña().equals(contraseña)){
+                return usuario;
+            }
+        }
+        
+        System.out.println("Credenciales incorrectas.");
+        return null;
+        
+    }
+
+    static void crearUsuario(GestorDeUsuario gestorDeUsuario) {
+        // Implementa la creación de un nuevo usuario y agrega el objeto usuario a la lista de usuarios
+         System.out.println("Ingrese su nombre de usuario:");
+         String nombreUsuario = scanner.next();
+         System.out.println("Ingrese su contraseña:");
+         String contraseña = scanner.next();
+         System.out.println("Ingrese el nombre de su empresa:");
+         String nombreEmpresa = scanner.next();
+         
+         Usuario nuevoUsuario = new Usuario();
+         nuevoUsuario.setNombreUsuario(nombreUsuario);
+         nuevoUsuario.setContraseña(contraseña);
+         nuevoUsuario.setNombreEmpresa(nombreEmpresa);
+         
+         gestorDeUsuario.agregar(nuevoUsuario);
+         
+         System.out.println("Usuario creado exitosamente.");
+    }
+
+    static void agregarProducto(Inventario inventario) {
+        // Implementa la adición de un nuevo producto al inventario
+        System.out.println("Ingrese el nombre del producto:");
+        String nombre = scanner.next();
+        System.out.println("Ingrese el stock del producto:");
+        int stock = scanner.nextInt();
+        System.out.println("Ingrese el código de barras del producto:");
+        int codigoBarra = scanner.nextInt();
+        System.out.println("Ingrese el precio del producto:");
+        int precio = scanner.nextInt();
+        
+        Producto nuevoProducto = new Producto();
+        nuevoProducto.setNombre(nombre);
+        nuevoProducto.setStock(stock);
+        nuevoProducto.setCodigoBarra(codigoBarra);
+        nuevoProducto.setPrecio(precio);
+        
+        inventario.listaProductos.add(nuevoProducto);
+        
+        System.out.println("Producto agregado exitosamente.");
+    }
+
+    static void eliminarProducto(Inventario inventario) {
+        // Implementa la eliminación de un producto del inventario
+        System.out.println("Ingrese el código de barras del producto a eliminar:");
+        int codigoBarra = scanner.nextInt();
+        
+        Producto productoAEliminar = null;
+        
+        for (Producto producto : inventario.listaProductos){
+            if(producto.getCodigoBarra() == codigoBarra){
+                productoAEliminar = producto;
+                break;
+            }
+        }
+        
+        if(productoAEliminar != null){
+            inventario.listaProductos.remove(productoAEliminar);
+            System.out.println("Producto eliminado exitosamente.");
+        } else {
+            System.out.println("No se encontró el producto con el código de barras proporcionado.");
+        }
+    }
+
+    static void buscarProductoPorNombre(Inventario inventario) {
+        // Implementa la búsqueda de un producto por nombre
+         System.out.println("Ingrese el nombre del producto a buscar:");
+         String nombre = scanner.next();
+         
+         Producto productoEncontrado = null;
+         
+         for (Producto producto : inventario.listaProductos){
+             if(producto.getNombre().equals(nombre)){
+                 productoEncontrado = producto;
+                 break;
+             }
+         }
+         
+         if(productoEncontrado != null){
+             System.out.println("Producto encontrado: " + productoEncontrado.getNombre());
+         } else {
+             System.out.println("No se encontró el producto con el nombre proporcionado.");
+         }
+    }
+
+    static void buscarProductoPorCodigo(Inventario inventario) {
+        // Implementa la búsqueda de un producto por código
+         System.out.println("Ingrese el código de barras del producto a buscar:");
+         int codigoBarra = scanner.nextInt();
+         
+         Producto productoEncontrado = null;
+         
+         for (Producto producto : inventario.listaProductos){
+             if(producto.getCodigoBarra() == codigoBarra){
+                 productoEncontrado = producto;
+                 break;
+             }
+         }
+         
+         if(productoEncontrado != null){
+             System.out.println("Producto encontrado: " + productoEncontrado.getNombre());
+         } else {
+             System.out.println("No se encontró el producto con el código de barras proporcionado.");
+         }
     }
 }
