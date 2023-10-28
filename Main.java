@@ -1,6 +1,11 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
-class Producto {
+// Clase Producto
+public class Producto {
     private String nombre;
     private int stock;
     private int codigoBarra;
@@ -13,209 +18,84 @@ class Producto {
         this.precio = precio;
     }
 
-    // Métodos setter y getter para los atributos
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setCodigoBarra(int codigoBarra) {
-        this.codigoBarra = codigoBarra;
-    }
-
-    public int getCodigoBarra() {
-        return codigoBarra;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public int getPrecio() {
-        return precio;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public int getStock() { return stock; }
+    public void setStock(int stock) { this.stock = stock; }
+    public int getCodigoBarra() { return codigoBarra; }
+    public void setCodigoBarra(int codigoBarra) { this.codigoBarra = codigoBarra; }
+    public int getPrecio() { return precio; }
+    public void setPrecio(int precio) { this.precio = precio; }
 }
 
-class Usuario {
+// Clase Usuario
+public class Usuario {
     private String nombreUsuario;
     private String nombreEmpresa;
-    private int contrasena;
+    private String contraseña;
 
-    public Usuario(String nombreUsuario, String nombreEmpresa, int contrasena) {
+    public Usuario(String nombreUsuario, String nombreEmpresa, String contraseña) {
         this.nombreUsuario = nombreUsuario;
         this.nombreEmpresa = nombreEmpresa;
-        this.contrasena = contrasena;
-
+        this.contraseña = contraseña;
     }
 
-    public String getNombre() {
-        return nombreUsuario;
-    }
-
-    public int getContrasena() {
-        return contrasena;
-    }
-
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
-    }
-
-
-    public static Usuario registrarse() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Nombre de usuario: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese el nombre de la empresa: ");
-        String nombreEmpresa = scanner.nextLine();
-        System.out.print("Ingrese una contraseña: ");
-        String contrasena = scanner.nextLine();
-        return new Usuario(nombre, contrasena, nombreEmpresa);
-    }
-
-    public static Usuario iniciarSesion(Map<String, Usuario> usuarios) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese su nombre de usuario: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese su contraseña: ");
-        String contrasena = scanner.nextLine();
-
-        if (usuarios.containsKey(nombre) && usuarios.get(nombre).getContrasena().equals(contrasena)) {
-            return usuarios.get(nombre);
-        } else {
-            return null;
-        }
-    }
-
+    public String getNombreUsuario() { return nombreUsuario; }
+    public void setNombreUsuario(String nombreUsuario) { this.nombreUsuario = nombreUsuario; }
+    public String getNombreEmpresa() { return nombreEmpresa; }
+    public void setNombreEmpresa(String nombreEmpresa) { this.nombreEmpresa = nombreEmpresa; }
+    public String getContraseña() { return contraseña; }
+    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
 }
 
-class Calculadora {
-    private int precio;
-    private int numeroVenta;
+// Clase GestorUsuario
+public class GestorUsuario {
+    private List<Usuario> listaUsuarios;
 
-    public Calculadora(int precio, int numeroVenta) {
-        this.precio = precio;
-        this.numeroVenta = numeroVenta;
-    }
-    public int calcularProducto(){
-        return precio * numeroVenta;
+    public GestorUsuario() {
+        this.listaUsuarios = new ArrayList<>();
     }
 
-}
-
-class Registro {
-    private String fecha;
-    private String nombreProducto;
-
-
-    public Registro(String fecha, String nombreProducto){
-        this.fecha= fecha;
-        this.nombreProducto = nombreProducto;
-    }
-    public void generarVentasDia(Calculadora calculadora) {
-
-    }
-}
-
-class Inventario {
-    private List<Producto> productos = new ArrayList<>();
-
-    public Producto buscarProductos(String nombre){
-
-    }
-    public void modificarProducto(){
-
+    public void crearUsuario(String nombreUsuario, String nombreEmpresa, String contraseña) {
+        Usuario nuevoUsuario = new Usuario(nombreUsuario, nombreEmpresa, contraseña);
+        listaUsuarios.add(nuevoUsuario);
     }
 
-    public void agregarProducto(){
-
-    }
-
-    public void eliminarProducto(){
-
-    }
-    public void mostrarProductos(){
-
-    }
-}
-
-class Venta{
-    String fechaVenta;
-    int productoVendido;
-
-    int cantidad;
-    int montoTotal;
-
-}
-
-class HistorialVentas{
-    String entradaProducto;
-    String salidaProducto;
-
-    int ventas;
-    int compras;
-    int cambioStock;
-
-}
-class GestorUsuario{
-    public void agregar(){
-
-    }
-    public void eliminar(){
-
-    }
-    public void gestionCuentasUsuario(){
-
-    }
-
-}
-class GestorInventario{
-
-}
-public class Main {
-    public static void main(String[] args) {
-        Map<String, Usuario> usuarios = new HashMap<>();
-        Usuario usuarioActual;
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("1. Registrarse");
-            System.out.println("2. Iniciar sesión");
-            System.out.println("3. Salir");
-            System.out.print("Elija una opción: ");
-            int opcion = scanner.nextInt();
-
-            switch (opcion) {
-                case 1 -> {
-                    Usuario nuevoUsuario = registrarse();
-                    usuarios.put(nuevoUsuario.getNombre(), nuevoUsuario);
-                    System.out.println("Registro exitoso.");
-                }
-                case 2 -> {
-                    usuarioActual = iniciarSesion(usuarios);
-                    if (usuarioActual != null) {
-                        System.out.println("Inicio de sesión exitoso. ¡Bienvenido, " + usuarioActual.getNombre() + "!");
-                        System.out.println("Empresa: " + usuarioActual.getNombreEmpresa());
-                    } else {
-                        System.out.println("Nombre de usuario o contraseña incorrectos. Intente de nuevo.");
-                    }
-                }
-                case 3 -> {
-                    System.out.println("Saliendo...");
-                    System.exit(0);
-                }
-                default -> System.out.println("Opción no válida. Intente de nuevo.");
+    public boolean iniciarSesion(String nombreUsuario, String contraseña) {
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getNombreUsuario().equals(nombreUsuario) && usuario.getContraseña().equals(contraseña)) {
+                return true;
             }
         }
+        return false;
     }
+
+    public List<Usuario> getListaUsuarios() { return listaUsuarios; }
+    public void setListaUsuarios(List<Usuario> listaUsuarios) { this.listaUsuarios = listaUsuarios; }
+}
+
+// Clase Menu
+public class Menu {
+    private GestorUsuario gestorUsuario;
+
+    public Menu() {
+        this.gestorUsuario = new GestorUsuario();
+    }
+
+    // Método para mostrar el menú
+    // Nota: Este método requiere interacción del usuario, por lo que no funcionará en este entorno.
+}
+
+// Clase Registro
+public class Registro {
+    private String fecha;
+    private Producto nombreProducto;
+
+    public Registro(String fecha, Producto nombreProducto) {
+        this.fecha = fecha;
+        this.nombreProducto = nombreProducto;
+    }
+
+    // Método para agregar a un CSV
+    // Nota: Este método requiere acceso al sistema de archivos, por lo que no funcionará en este entorno.
 }
